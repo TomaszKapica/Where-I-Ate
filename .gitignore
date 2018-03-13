@@ -1,0 +1,6 @@
+.idea/misc.xml
+.idea/modules.xml
+.idea/RestaurantPick.iml
+.idea/workspace.xml
+*.sqlite3
+*.pyc
