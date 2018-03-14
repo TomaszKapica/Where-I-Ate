@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Restaurants
+{% endblock title %}
+
+{% block content %}
+<h1>Restaurants</h1>
+{% for obj in object_list%}
+<ul>
+    <li>
+        <a href=" /restaurants/{{obj.slug}}">{{obj.name}}</a> {{obj.category}} {{obj.location}} {{obj.timestamp}} {{obj.updated}}
+    </li>
+</ul>
+{% endfor %}
+{% endblock content %}

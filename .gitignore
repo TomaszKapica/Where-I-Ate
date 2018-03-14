@@ -4,3 +4,4 @@
 .idea/workspace.xml
 *.sqlite3
 *.pyc
+.idea/
