@@ -1,7 +1,13 @@
 from django.db import models
 from django.db.models.signals import pre_save
 from .utils import unique_slug_generator
+from django.conf import settings
+from django.urls import reverse_lazy
+User = settings.AUTH_USER_MODEL
+
+
 class Restaurant(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     name = models.CharField(max_length=150)
     location = models.CharField(max_length=150, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -16,8 +22,12 @@ class Restaurant(models.Model):
     def title(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse_lazy('restaurants:detail', kwargs={'slug': self.slug})
+
 
 def r_pre_save_receiver(sender, instance, *args, **kwargs):
+    instance.category = instance.category.capitalize()
     if not instance.slug:
         instance.slug = unique_slug_generator(instance)
 
