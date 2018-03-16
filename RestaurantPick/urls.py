@@ -26,6 +26,8 @@ urlpatterns = [
     path('', MainPageView.as_view(), name='home'),
     path('contact/', ContactView.as_view(), name='contact'),
     path('about/', AboutView.as_view(), name='about'),
-    path('restaurants/', include('restaurants.urls'))
+    path('restaurants/', include('restaurants.urls')),
+    path('items/', include('menus.urls')),
+
 
 ]

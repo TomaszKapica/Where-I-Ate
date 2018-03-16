@@ -19,6 +19,7 @@ class Dev(Configuration):
         'django.contrib.messages',
         'django.contrib.staticfiles',
         'restaurants',
+        'menus',
         'bootstrap3',
     ]
 
