@@ -32,6 +32,6 @@ Menu Items
     </li>
 </ul>
 {% empty %}
-<a href=" url 'menus:create' ">Add Item</a>
+<a href=" {%url 'menus:create' %} ">Add Item</a>
 {% endfor %}
 {% endblock content %}
