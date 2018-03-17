@@ -1,6 +1,5 @@
-from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
 from .models import Restaurant
-from django.db.models import Q
 from .forms import RestaurantCreateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -17,18 +16,14 @@ class AboutView(TemplateView):
     template_name = 'about.html'
 
 
-class RestaurantsListView(ListView):
+class RestaurantsListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
-        slug = self.kwargs.get('slug')
-        if slug:
-            queryset = Restaurant.objects.filter(Q(category__iexact=slug) | Q(category__contains=slug))
-        else:
-            queryset = Restaurant.objects.all()
-        return queryset
+        return Restaurant.objects.filter(owner=self.request.user)
 
 
-class RestaurantDetailView(DetailView):
-    model = Restaurant
+class RestaurantDetailView(LoginRequiredMixin, DetailView):
+    def get_queryset(self):
+        return Restaurant.objects.filter(owner=self.request.user)
 
 
 class RestaurantCreateView(LoginRequiredMixin, CreateView):
@@ -44,3 +39,17 @@ class RestaurantCreateView(LoginRequiredMixin, CreateView):
         context = super(RestaurantCreateView, self).get_context_data(*args, **kwargs)
         context['title'] = 'Add Restaurant'
         return context
+
+
+class RestaurantUpdateView(LoginRequiredMixin, UpdateView):
+    form_class = RestaurantCreateForm
+    template_name = 'restaurants/detail-update.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(RestaurantUpdateView, self).get_context_data(*args, **kwargs)
+        name = self.get_object().name
+        context['title'] = 'Update {}'.format(name)
+        return context
+
+    def get_queryset(self):
+        return Restaurant.objects.filter(owner=self.request.user)
