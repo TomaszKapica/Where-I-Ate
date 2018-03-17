@@ -18,9 +18,17 @@ class Dev(Configuration):
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
+        'django.contrib.sites',
         'restaurants',
         'menus',
+        'users',
+        'profiles',
+        'allauth',
+        'allauth.account',
+        'allauth.socialaccount',
+        'allauth.socialaccount.providers.facebook',
         'bootstrap3',
+
     ]
 
     MIDDLEWARE = [
@@ -51,6 +59,16 @@ class Dev(Configuration):
             },
         },
     ]
+
+    AUTHENTICATION_BACKENDS = (
+
+        # Needed to login by username in Django admin, regardless of `allauth`
+        'django.contrib.auth.backends.ModelBackend',
+
+        # `allauth` specific authentication methods, such as login by e-mail
+        'allauth.account.auth_backends.AuthenticationBackend',
+
+    )
 
     WSGI_APPLICATION = 'RestaurantPick.wsgi.application'
 
@@ -90,7 +108,16 @@ class Dev(Configuration):
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    LOGIN_URL = '/login/'
+    STATICFILES_DIRS = [
+        MEDIA_ROOT
+    ]
+    SITE_ID = 2
+
+    AUTH_USER_MODEL = 'users.RestaurantUser'
+    LOGIN_REDIRECT_URL = 'home'
+    ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+
+
 
 
 class Prod(Dev):
