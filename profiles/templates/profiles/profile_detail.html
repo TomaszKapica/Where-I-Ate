@@ -5,28 +5,45 @@
 {% endblock title %}
 
 {% block content %}
-<h1>{{object.username}}</h1>
 
-{% for rest in object.restaurant_set.all %}
-<li>
-    <b>{{ rest.name}}</b> {{ rest.location}} <small>{{rest.category}}</small>
-    {% if object.item_set.all.exists %}
-    {% for it in rest.item_set.all %}
-    </br><b>Items</b>
-    <ul>
-        <li style="margin-bottom:20px">
-        {{it.name}} </br>
-        {% for cont in it.get_contents %}
-        <span style="margin-right:5px ; background-color:#ccc; margin-left:5px; padding:1px" >{{cont}}</span>
-        {% endfor %}
-        {% for excl in it.get_excludes %}
-        {{excl}}
-        {% endfor %}
-        </li>
-    </ul>
-    {% endfor %}
-    {% endif %}
-</li>
+<form class="form" method="GET"  action=".">
+    <input type="text" placeholder="Search..." name="qs" value="{{request.GET.qs}}">
+    <button class="btn btn-default" type="submit">Search</button>
+</form>
+
+
+<h1>{{object.username}}</h1>
+{% if search_query %}
+
+{% for rest in search_query %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card ">
+                <p><b>{{ rest.name}}</b> {{ rest.location}} <small>{{rest.category}}</small></p>
+
+                {% if rest.item_set.all.exists %}
+                    <ul>
+                        {% for it in rest.item_set.all %}
+                            <li style="margin-bottom:20px">
+                                {{it.name}} </br>
+                                {{it.contents}}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="lead">No Items Found</p>
+                {% endif %}
+
+
+            </div>
+        </div>
+    </div>
+
+
 {% endfor %}
+{% else %}
+<p class="lead">No Restaurants Found</p>
+{% endif %}
 
 {% endblock content %}
