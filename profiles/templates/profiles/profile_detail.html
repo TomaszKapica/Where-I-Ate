@@ -20,14 +20,17 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card ">
-                <p><b>{{ rest.name}}</b> {{ rest.location}} <small>{{rest.category}}</small></p>
+                <p><b>{{ rest.name}}</b> <a href="{{request.path}}?qs={{ rest.location}}">{{rest.location}}</a>
+                    <small><a href="{{request.path}}?qs={{rest.category}}">{{rest.category}}</a></small></p>
 
                 {% if rest.item_set.all.exists %}
                     <ul>
-                        {% for it in rest.item_set.all %}
+                        {% for item in rest.item_set.all %}
                             <li style="margin-bottom:20px">
-                                {{it.name}} </br>
-                                {{it.contents}}
+                                {{item.name}} </br>
+                                {% for ing in item.get_contents %}
+                                <a href=" {{request.path}}?qs={{ing}}">{{ing}}</a>
+                                {% endfor %}
                             </li>
                         {% endfor %}
                     </ul>
