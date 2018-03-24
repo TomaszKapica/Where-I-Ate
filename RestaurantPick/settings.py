@@ -23,11 +23,13 @@ class Dev(Configuration):
         'menus',
         'users',
         'profiles',
+
         'allauth',
         'allauth.account',
         'allauth.socialaccount',
         'allauth.socialaccount.providers.facebook',
         'bootstrap3',
+        'friendship',
 
     ]
 

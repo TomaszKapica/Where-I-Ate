@@ -16,6 +16,5 @@ class ItemForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
-        print(user)
         super(ItemForm, self).__init__(*args, **kwargs)
         self.fields['restaurant'].queryset = Restaurant.objects.filter(owner=user)

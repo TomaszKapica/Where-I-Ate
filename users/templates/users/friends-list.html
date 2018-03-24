@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{title}}
+{% endblock title%}
+{% block content %}
+<h2>{{title}}</h2>
+{% for friend in object_list %}
+<div class="row">
+        <a href="{% url 'profiles:detail' username=friend %}">{{friend}}</a>
+
+        <form class="form" method="POST" action=" {% url 'users:friend-list'%} ">{% csrf_token %}
+            <input type="hidden" name="username" value="{{friend}}">
+            <input type="hidden" name="status" value="deleted">
+            <input type="hidden" name="path" value="{{request.path}}">
+            <button class="btn btn-default">Delete</button>
+        </form>
+
+</div>
+{% empty %}
+<p class="lead">No Friends Found</p>
+{% endfor %}
+
+
+
+
+{% endblock content %}

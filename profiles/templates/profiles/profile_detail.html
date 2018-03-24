@@ -5,12 +5,27 @@
 {% endblock title %}
 
 {% block content %}
-
+{{is_friend}}
+<div class="row">
 <form class="form" method="GET"  action=".">
     <input type="text" placeholder="Search..." name="qs" value="{{request.GET.qs}}">
     <button class="btn btn-default" type="submit">Search</button>
 </form>
-
+{% if not is_requested %}
+<form class="form" method="POST" action=" {% url 'users:friend-add'%}">{% csrf_token %}
+    <input type="hidden" name="username" value="{{object.username}}">
+    <input type="hidden" name="status" value="{% if is_friend %}is_friend{% else %}not_friend{% endif %}">
+    <input type="hidden" name="path" value="{{request.path}}">
+    <button class="{% if is_friend %}btn btn-default{% else %}btn btn-primary{% endif %}">{% if is_friend %}Remove Friend{% else %}Add friend{% endif %}</button>
+</form>
+{% endif %}
+<form class="form" method="POST" action="{% url 'users:follow-add' %}">{% csrf_token %}
+    <input type="hidden" name="username" value="{{object.username}}">
+    <input type="hidden" name="status" value="{% if is_follower %}is_followed{% else %}not_followed{% endif %}">
+    <input type="hidden" name="path" value="{{request.path}}">
+    <button class="{% if is_follower %}btn btn-default{% else %}btn btn-primary{% endif %}">{% if is_follower %}Unfollow{% else %}Follow{% endif %}</button>
+</form>
+</div>
 
 <h1>{{object.username}}</h1>
 {% if search_query %}

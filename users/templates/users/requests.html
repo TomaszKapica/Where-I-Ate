@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{title}}
+{% endblock title%}
+
+{% block content %}
+<h2>{{title_1}}</h2>
+{% for req in object_list %}
+
+
+    <div class="row">
+        <p><a href=" {% url 'profiles:detail' username=req.from_user %}">{{req.from_user}}</a> sent you a message : Hi {{req.to_user}}! {{req.message}}</p>
+
+
+
+            <form class="form" method="POST" action=" {% url 'users:requests' %}">{% csrf_token %}
+                    <input type="hidden" name="req_id" value="{{req.id}}">
+                    <input type="hidden" name="status" value="accepted">
+                    <input type="hidden" name="path" value="{{request.path}}">
+                <button type="btn btn-primary">Accept</button>
+            </form>
+            <form class="form" method="POST" action=" {% url 'users:requests' %}">{% csrf_token %}
+                    <input type="hidden" name="req_id" value="{{req.id}}">
+                    <input type="hidden" name="status" value="rejected">
+                    <input type="hidden" name="path" value="{{request.path}}">
+                <button type="btn btn-primary">Reject</button>
+            </form>
+
+    </div>
+
+{% endfor %}
+<h2>{{title_2}}</h2>
+{% for sent in sent_req %}
+<div class="row">
+    <p>Sent to <a href=" {% url 'profiles:detail' username=sent.to_user %}">{{sent.to_user}}</a>: {{sent.message}} </p>
+
+    <form class="form" method="POST" action=" {% url 'users:requests' %}">{% csrf_token %}
+                    <input type="hidden" name="req_id" value="{{sent.id}}">
+                    <input type="hidden" name="status" value="cancelled">
+                    <input type="hidden" name="path" value="{{request.path}}">
+                <button type="btn btn-primary">Cancel</button>
+            </form>
+</div>
+{% endfor %}
+
+{% endblock content %}

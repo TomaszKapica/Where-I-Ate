@@ -29,7 +29,8 @@ urlpatterns = [
     path('about/', AboutView.as_view(), name='about'),
     path('restaurants/', include('restaurants.urls')),
     path('items/', include('menus.urls')),
-    path('profile/', include('profiles.urls'))
+    path('profile/', include('profiles.urls')),
+    path('user/', include('users.urls')),
 
 
 ]

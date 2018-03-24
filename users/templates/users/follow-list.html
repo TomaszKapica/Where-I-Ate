@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{title}}
+{% endblock title%}
+
+{% block content %}
+<h2>{{title_1}}</h2>
+{% for follow in object_list %}
+
+<div class="row">
+    <a href=" {% url 'profiles:detail' username=follow %}">{{follow}}</a>
+</div>
+{% empty %}
+<p class="lead">You do not follow anyone</p>
+{% endfor %}
+
+<h2>{{title_2}}</h2>
+{% for follow_b in followed_by %}
+<div class="row">
+    <a href=" {% url 'profiles:detail' username=follow_b %}">{{follow_b}}</a>
+</div>
+{% empty %}
+<p class="lead">You are not followed by anyone</p>
+{% endfor%}
+{% endblock content%}
