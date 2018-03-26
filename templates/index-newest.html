@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load rest_tags %}
+
+{% block title %}
+Home
+{% endblock title %}
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-6 text-center offset-md-3">
+         <h2>{{ title }}</h2>
+{% for newest in qs %}
+
+        <div class="card">
+            {% if newest.contents %}
+                {% if not newest.updated|sub_date:newest.timestamp %}
+                    <small>Created:{{newest.timestamp}} | Updated:{{newest.updated|timesince}} ago</small></br>
+                    <p><a href=" {% url 'profiles:detail' username=newest.owner  %}">{{newest.owner}}</a>
+                        updated item in Restaurant: <b>
+                            <a href=" {% url 'profiles:detail' username=newest.owner  %}?qs={{newest.restaurant.name}}">
+                            {{newest.restaurant.name}}</a></b></p>
+                    <p>Item: <a href=" {% url 'profiles:detail' username=newest.owner  %}?qs={{newest.name}}">
+                            {{newest.name}}</a></p>
+                    <p>
+                        Contents:
+                        {% for ing in newest.get_contents %}
+                        <a href=" {% url 'profiles:detail' username=newest.owner  %}?qs={{ing}}">{{ing}}</a>
+                        {% endfor %}
+                    </p>
+                {% else %}
+                    <small>Created:{{newest.timestamp|timesince}} ago</small>
+                    <p><a href=" {% url 'profiles:detail' username=newest.owner  %}">{{newest.owner}}</a>
+                        added item in Restaurant: <b><a href=" {% url 'profiles:detail' username=newest.owner  %}
+                        ?qs={{newest.restaurant.name}}">{{newest.restaurant.name}}</a></b></p>
+                    <p>Item: <a href=" {% url 'profiles:detail' username=newest.owner  %}?qs={{newest.name}}">
+                            {{newest.name}}</a></p>
+                    <p>
+                        Contents:
+                        {% for ing in newest.get_contents %}
+                        <a href=" {% url 'profiles:detail' username=newest.owner  %}?qs={{ing}}">{{ing}}</a>
+                        {% endfor %}
+                    </p>
+                {% endif %}
+            {% else %}
+                {% if not newest.updated|sub_date:newest.timestamp %}
+                    <small>Created:{{newest.timestamp}} | Updated:{{newest.updated|timesince}} ago</small></br>
+                    <p><a href=" {% url 'profiles:detail' username=newest.owner  %}">{{newest.owner}}</a>
+                        updated  Restaurant:</p>
+                        <p>
+                            Name:
+                            <b><a href=" {% url 'profiles:detail' username=newest.owner  %}?qs={{newest.name}}">{{newest.name}}</a></b>
+                        </p>
+                        {% if newest.location %}
+                            <p>Location: <a href=" {% url 'profiles:detail' username=newest.owner  %}?qs={{newest.location}}">{{newest.location}}</a></p>
+                        {% endif %}
+                    <p>Category: <a href=" {% url 'profiles:detail' username=newest.owner  %}?qs={{newest.category}}">{{newest.category}}</a></p>
+
+                {% else %}
+                    <small>Created:{{newest.timestamp|timesince}} ago</small>
+                    <p><a href=" {% url 'profiles:detail' username=newest.owner  %}">{{newest.owner}}</a>
+                        added Restaurant:</p>
+                        <p>
+                            Name:
+                            <b><a href=" {% url 'profiles:detail' username=newest.owner  %}?qs={{newest.name}}">{{newest.name}}</a></b>
+                        </p>
+                        {% if newest.location %}
+                            <p>Location: <a href=" {% url 'profiles:detail' username=newest.owner  %}?qs={{newest.location}}">{{newest.location}}</a></p>
+                        {% endif %}
+                    <p>Category: <a href=" {% url 'profiles:detail' username=newest.owner  %}?qs={{newest.category}}">{{newest.category}}</a></p>
+
+                {% endif %}
+            {% endif%}
+        </div>
+
+{% empty %}
+<p class="lead">No recent news</p>
+{% endfor %}
+ </div>
+</div>
+{% endblock content %}

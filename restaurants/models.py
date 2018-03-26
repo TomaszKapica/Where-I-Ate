@@ -46,6 +46,9 @@ class Restaurant(models.Model):
     slug = models.SlugField(null=True, blank=True)
     objects = RestaurantManager()
 
+    class Meta:
+        ordering = ('-updated', '-timestamp')
+
     def __str__(self):
         return "{} {}".format(self.name, self.location)
 

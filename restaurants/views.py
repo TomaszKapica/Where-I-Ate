@@ -2,10 +2,36 @@ from django.views.generic import TemplateView, ListView, DetailView, CreateView,
 from .models import Restaurant
 from .forms import RestaurantCreateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, redirect
+from friendship.models import Follow
+from menus.models import Item
+from restaurants.models import Restaurant
 
 
 class MainPageView(TemplateView):
-    template_name = 'index.html'
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return render(request, 'index.html', {})
+        else:
+            u_followings = [u.id for u in Follow.objects.following(request.user)]
+            qs = list(Item.objects.filter(owner_id__in=u_followings))
+            qs1 = list(Restaurant.objects.filter(owner_id__in=u_followings))
+            qs.extend(qs1)
+
+            try:
+                import operator
+            except ImportError:
+                keyfun = lambda x: qs.updated  # use a lambda if no operator module
+            else:
+                keyfun = operator.attrgetter("updated")  # use operator since it's faster than lambda
+            qs.sort(key=keyfun, reverse=True)
+
+            limit = 10
+            if len(qs) > limit:
+                qs = qs[:limit-1]
+
+            title = 'Recent Following Actions'
+            return render(request, 'index-newest.html', {'qs': qs, 'title': title})
 
 
 class ContactView(TemplateView):

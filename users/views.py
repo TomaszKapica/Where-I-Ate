@@ -43,12 +43,12 @@ class FollowListView(LoginRequiredMixin, ListView):
 
 
 class FriendToggleView(LoginRequiredMixin, View):
-    def post(self, *args, **kwargs):
-        username = self.request.POST.get('username')
-        status = self.request.POST.get('status')
-        path = self.request.POST.get('path')
+    def post(self, request, *args, **kwargs):
+        username = request.POST.get('username')
+        status = request.POST.get('status')
+        path = request.POST.get('path')
         friend = RestaurantUser.objects.filter(username=username).first()
-        current_user = self.request.user
+        current_user = request.user
         if status == 'not_friend':
             Friend.objects.add_friend(
                 current_user,
@@ -64,11 +64,11 @@ class FriendToggleView(LoginRequiredMixin, View):
 
 
 class FollowToggleView(LoginRequiredMixin, View):
-    def post(self, *args, **kwargs):
-        username = self.request.POST.get('username')
-        status = self.request.POST.get('status')
-        path = self.request.POST.get('path')
-        logged_user = self.request.user
+    def post(self, request,  *args, **kwargs):
+        username = request.POST.get('username')
+        status = request.POST.get('status')
+        path = request.POST.get('path')
+        logged_user = request.user
         followed = RestaurantUser.objects.filter(username=username).first()
 
         if status == 'not_followed':
@@ -98,14 +98,11 @@ class FriendshipRequestView(LoginRequiredMixin, ListView):
         context['title_2'] = 'My Requests'
         return context
 
-    def post(self, *args, **kwargs):
-        req_id = self.request.POST.get('req_id')
-        status = self.request.POST.get('status')
-        path = self.request.POST.get('path')
+    def post(self, request, *args, **kwargs):
+        req_id = request.POST.get('req_id')
+        status = request.POST.get('status')
+        path = request.POST.get('path')
         fr_obj = FriendshipRequest.objects.get(pk=req_id)
-        print(req_id)
-        print(status)
-        print(path)
         if status == 'accepted':
             fr_obj.accept()
         elif status == 'rejected':

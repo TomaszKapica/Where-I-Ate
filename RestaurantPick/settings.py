@@ -23,13 +23,14 @@ class Dev(Configuration):
         'menus',
         'users',
         'profiles',
-
         'allauth',
         'allauth.account',
         'allauth.socialaccount',
         'allauth.socialaccount.providers.facebook',
         'bootstrap3',
         'friendship',
+
+
 
     ]
 
@@ -48,7 +49,7 @@ class Dev(Configuration):
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': ['templates',
+            'DIRS': ['templates', 'templatetags',
                      ],
             'APP_DIRS': True,
             'OPTIONS': {
@@ -61,6 +62,13 @@ class Dev(Configuration):
             },
         },
     ]
+
+    TEMPLATE_LOADERS = (
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+        'django.template.loaders.eggs.Loader',
+        'django.template.loaders.app_directories.load_template_source',
+    )
 
     AUTHENTICATION_BACKENDS = (
 
