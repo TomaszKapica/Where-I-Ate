@@ -9,7 +9,10 @@
 {% for follow in object_list %}
 
 <div class="row">
-    <a href=" {% url 'profiles:detail' username=follow %}">{{follow}}</a>
+    <div class="col-md-4">
+        <a href=" {% url 'profiles:detail' username=follow %}">{{follow}}</a>
+    </div>
+
 </div>
 {% empty %}
 <p class="lead">You do not follow anyone</p>
@@ -18,7 +21,10 @@
 <h2>{{title_2}}</h2>
 {% for follow_b in followed_by %}
 <div class="row">
-    <a href=" {% url 'profiles:detail' username=follow_b %}">{{follow_b}}</a>
+    <div class="col-md-4">
+         <a href=" {% url 'profiles:detail' username=follow_b %}">{{follow_b}}</a>
+    </div>
+
 </div>
 {% empty %}
 <p class="lead">You are not followed by anyone</p>

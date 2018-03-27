@@ -4,6 +4,7 @@ from .views import (
     ItemDetailView,
     ItemCreateView,
     ItemUpdateView,
+    ItemDeleteView,
 )
 
 
@@ -12,6 +13,7 @@ urlpatterns = [
     path('', ItemListView.as_view(), name='list'),
     path('create/', ItemCreateView.as_view(), name='create'),
     #re_path('(?P<pk>\d+)/edit/$', ItemUpdateView.as_view(), name='edit'),
+    path('delete/', ItemDeleteView.as_view(), name='delete'),
     re_path('(?P<pk>\d+)/$', ItemUpdateView.as_view(), name='detail'),
 
 

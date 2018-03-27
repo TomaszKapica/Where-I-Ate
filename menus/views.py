@@ -1,7 +1,9 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Item
 from .forms import ItemForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.shortcuts import Http404, get_object_or_404
 
 
 class ItemListView(ListView):
@@ -53,3 +55,12 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
         kwargs = super(ItemUpdateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+class ItemDeleteView(LoginRequiredMixin, DeleteView):
+    success_url = reverse_lazy('menus:list')
+
+    def get_object(self, queryset=None):
+        it_id = self.request.POST.get('id')
+        if it_id is None:
+            raise Http404
+        return get_object_or_404(Item.objects.filter(id__iexact=it_id))

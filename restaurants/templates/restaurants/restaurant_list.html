@@ -6,13 +6,28 @@ My Restaurants
 
 {% block content %}
 <h2>My Restaurants     <small><a href=" {% url 'restaurants:create' %}">Add</a> </small></h2>
-{% for obj in object_list%}
-<ul>
-    <li>
-        <a href=" {{obj.get_absolute_url}} ">{{obj.name}}</a> {{obj.category}} {{obj.location}} {{obj.timestamp}} {{obj.updated}}
-    </li>
-</ul>
-{% empty %}
-<li><a href="{% url 'restaurants:create' %}">Add restaurant</a> </li>
-{% endfor %}
+
+<div class="row">
+    <div class="col-md-12">
+        {% for obj in object_list%}
+
+        <div class="card">
+            <p>
+                <a href=" {{obj.get_absolute_url}} ">{{obj.name}}</a>
+                {{obj.category}} {{obj.location}} {{obj.timestamp}} {{obj.updated}}
+
+                <form class="form" method="POST" action="{% url 'restaurants:delete' %}">{% csrf_token %}
+                <input type="hidden" name="id" value="{{obj.id}}">
+                <button class="btn btn-default">Delete</button>
+                </form>
+            </p>
+        </div>
+
+        {% empty %}
+            <li><a href="{% url 'restaurants:create' %}">Add restaurant</a> </li>
+        {% endfor %}
+
+    </div>
+</div>
+
 {% endblock content %}

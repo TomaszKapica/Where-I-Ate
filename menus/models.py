@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 
 class Item(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.DO_NOTHING)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     name = models.CharField(max_length=150)
     contents = models.TextField(help_text='Separate each item by comma')
     excludes = models.TextField(blank=True, null=True, help_text='Separate each item by comma')

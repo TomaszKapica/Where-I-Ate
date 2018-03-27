@@ -27,7 +27,7 @@ class Dev(Configuration):
         'allauth.account',
         'allauth.socialaccount',
         'allauth.socialaccount.providers.facebook',
-        'bootstrap3',
+        #'bootstrap3',
         'friendship',
 
 

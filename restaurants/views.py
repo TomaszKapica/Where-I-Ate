@@ -1,11 +1,12 @@
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Restaurant
 from .forms import RestaurantCreateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from friendship.models import Follow
 from menus.models import Item
-from restaurants.models import Restaurant
+from django.shortcuts import Http404, get_object_or_404
+from django.urls import reverse_lazy
 
 
 class MainPageView(TemplateView):
@@ -79,3 +80,13 @@ class RestaurantUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_queryset(self):
         return Restaurant.objects.filter(owner=self.request.user)
+
+
+class RestaurantDeleteView(LoginRequiredMixin, DeleteView):
+    success_url = reverse_lazy('restaurants:list')
+
+    def get_object(self, queryset=None):
+        rest_id = self.request.POST.get('id')
+        if rest_id is None:
+            raise Http404
+        return get_object_or_404(Restaurant.objects.filter(id__iexact=rest_id))
