@@ -4,6 +4,8 @@ from restaurants.models import Restaurant
 
 
 class ItemForm(forms.ModelForm):
+
+    # form to create/update item
     class Meta:
         model = Item
         fields = [

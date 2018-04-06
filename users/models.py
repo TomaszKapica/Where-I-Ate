@@ -1,11 +1,9 @@
-from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser # pragma: no cover
 
 
-class RestaurantUser(AbstractUser):
+class RestaurantUser(AbstractUser): # pragma: no cover
+    # RestaurantUser model
     class Meta:
-        permissions = (
-
-        )
+        pass
 
 

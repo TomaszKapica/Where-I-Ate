@@ -1,15 +1,15 @@
-from django.utils.text import slugify
-import random
-import string
+from django.utils.text import slugify # pragma: no cover
+import random # pragma: no cover
+import string # pragma: no cover
 
-cant_use = ['create']
+cant_use = ['create'] # pragma: no cover
 
 
-def random_string_generator(size=10, chars=string.ascii_lowercase + string.digits):
+def random_string_generator(size=10, chars=string.ascii_lowercase + string.digits): # pragma: no cover
     return ''.join(random.choice(chars) for _ in range(size))
 
 
-def unique_slug_generator(instance, new_slug=None):
+def unique_slug_generator(instance, new_slug=None): # pragma: no cover
     """
     This is for a Django project and it assumes your instance
     has a model with a slug field and a title character (char) field.

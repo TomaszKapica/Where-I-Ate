@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.urls import path, re_path
 from restaurants.views import (
-    RestaurantDetailView,
     RestaurantCreateView,
     RestaurantsListView,
     RestaurantUpdateView,
@@ -25,7 +24,6 @@ app_name = 'restaurants'
 urlpatterns = [
     path('', RestaurantsListView.as_view(), name='list'),
     path('create/', RestaurantCreateView.as_view(), name='create'),
-    #re_path('(?P<slug>[\w-]+)/edit/$', RestaurantUpdateView.as_view(), name='edit'),
     path('delete/', RestaurantDeleteView.as_view(), name='delete'),
     re_path('(?P<slug>[\w-]+)/$', RestaurantUpdateView.as_view(), name='detail'),
 

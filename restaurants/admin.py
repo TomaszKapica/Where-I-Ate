@@ -1,8 +1,8 @@
-from django.contrib import admin
-from .models import Restaurant
+from django.contrib import admin # pragma: no cover
+from .models import Restaurant # pragma: no cover
 
 
-@admin.register(Restaurant)
+@admin.register(Restaurant)# pragma: no cover
 class RestaurantAdmin(admin.ModelAdmin):
     ordering = ('name', 'category', 'location')
 

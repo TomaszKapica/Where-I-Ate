@@ -27,8 +27,9 @@ class Dev(Configuration):
         'allauth.account',
         'allauth.socialaccount',
         'allauth.socialaccount.providers.facebook',
-        #'bootstrap3',
         'friendship',
+        'coverage',
+        'django_nose',
 
 
 
@@ -127,7 +128,13 @@ class Dev(Configuration):
     LOGIN_REDIRECT_URL = 'home'
     ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 
+    TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
+    NOSE_ARGS = [
+        '--with-coverage',
+        '--cover-package=profiles, menus, users, restaurants',
+        '--cover-html',
+    ]
 
 
 class Prod(Dev):

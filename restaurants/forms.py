@@ -3,6 +3,7 @@ from .models import Restaurant
 
 
 class RestaurantCreateForm(ModelForm):
+    # RestaurantForm
     class Meta:
         model = Restaurant
         fields = [

@@ -1,9 +1,9 @@
-from django.contrib.auth.admin import UserAdmin
-from .models import RestaurantUser
-from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin # pragma: no cover
+from .models import RestaurantUser # pragma: no cover
+from django.contrib import admin # pragma: no cover
 
 
-@admin.register(RestaurantUser)
+@admin.register(RestaurantUser) # pragma: no cover
 class AdminRestaurantUser(UserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),

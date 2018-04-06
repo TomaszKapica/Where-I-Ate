@@ -1,14 +1,16 @@
-from django.db import models
-from django.db.models.signals import pre_save
-from .utils import unique_slug_generator
-from django.conf import settings
-from django.urls import reverse_lazy
-from django.db.models import Q
+from django.db import models # pragma: no cover
+from django.db.models.signals import pre_save # pragma: no cover
+from .utils import unique_slug_generator # pragma: no cover
+from django.conf import settings # pragma: no cover
+from django.urls import reverse_lazy # pragma: no cover
+from django.db.models import Q # pragma: no cover
 
 User = settings.AUTH_USER_MODEL
 
 
 class RestaurantQuerySet(models.query.QuerySet):
+
+    # search by name, location, category, restaurant's items
     def search(self, query):
         if query:
             query = query.strip()
@@ -20,7 +22,7 @@ class RestaurantQuerySet(models.query.QuerySet):
                 Q(item__contents__icontains=query) |
                 Q(name__iexact=query) |
                 Q(location__iexact=query) |
-                Q(category__iexact=query)|
+                Q(category__iexact=query) |
                 Q(item__name__iexact=query) |
                 Q(item__contents__iexact=query)
             ).distinct()
@@ -37,33 +39,40 @@ class RestaurantManager(models.Manager):
 
 
 class Restaurant(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=150)
-    location = models.CharField(max_length=150, null=True, blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    category = models.CharField(max_length=30)
-    slug = models.SlugField(null=True, blank=True)
+    '''
+    Restaurant model
+    fields:
+    owner, name, location, timestamp, updated, category, slug
+    methods:
+    title, get_absolute_url,
+    '''
+    owner = models.ForeignKey(User, on_delete=models.CASCADE) # pragma: no cover
+    name = models.CharField(max_length=150) # pragma: no cover
+    location = models.CharField(max_length=150, null=True, blank=True) # pragma: no cover
+    timestamp = models.DateTimeField(auto_now_add=True) # pragma: no cover
+    updated = models.DateTimeField(auto_now=True) # pragma: no cover
+    category = models.CharField(max_length=30) # pragma: no cover
+    slug = models.SlugField(null=True, blank=True) # pragma: no cover
     objects = RestaurantManager()
 
-    class Meta:
+    class Meta: # pragma: no cover
         ordering = ('-updated', '-timestamp')
 
-    def __str__(self):
+    def __str__(self): # pragma: no cover
         return "{} {}".format(self.name, self.location)
 
     @property
-    def title(self):
+    def title(self): # pragma: no cover
         return self.name
 
-    def get_absolute_url(self):
+    def get_absolute_url(self): # pragma: no cover
         return reverse_lazy('restaurants:detail', kwargs={'slug': self.slug})
 
 
-def r_pre_save_receiver(sender, instance, *args, **kwargs):
+def r_pre_save_receiver(sender, instance, *args, **kwargs): # pragma: no cover
     instance.category = instance.category.capitalize()
     if not instance.slug:
         instance.slug = unique_slug_generator(instance)
 
 
-pre_save.connect(r_pre_save_receiver, sender=Restaurant)
+pre_save.connect(r_pre_save_receiver, sender=Restaurant) # pragma: no cover

@@ -6,6 +6,10 @@ from .models import RestaurantUser
 
 
 class FriendListView(LoginRequiredMixin, ListView):
+    '''
+        View of user's friends
+    '''
+
     template_name = 'users/friends-list.html'
 
     def get_queryset(self):
@@ -17,7 +21,7 @@ class FriendListView(LoginRequiredMixin, ListView):
         path = self.request.POST.get('path')
         friend = RestaurantUser.objects.filter(username=username).first()
         logged_user = self.request.user
-        if status in 'deleted':
+        if status == 'deleted':
             Friend.objects.remove_friend(logged_user, friend)
         return redirect(path)
 

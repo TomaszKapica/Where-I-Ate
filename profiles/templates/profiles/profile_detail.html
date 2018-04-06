@@ -5,11 +5,13 @@
 {% endblock title %}
 
 {% block content %}
+
 <div class="row">
 <form class="form" method="GET"  action=".">
     <input type="text" placeholder="Search..." name="qs" value="{{request.GET.qs}}">
     <button class="btn btn-default" type="submit">Search</button>
 </form>
+    {% if user != object %}
 {% if not is_requested %}
 <form class="form" method="POST" action=" {% url 'users:friend-add'%}">{% csrf_token %}
     <input type="hidden" name="username" value="{{object.username}}">
@@ -24,6 +26,7 @@
     <input type="hidden" name="path" value="{{request.path}}">
     <button class="{% if is_follower %}btn btn-default{% else %}btn btn-primary{% endif %}">{% if is_follower %}Unfollow{% else %}Follow{% endif %}</button>
 </form>
+    {% endif %}
 </div>
 
 <h1>{{object.username}}</h1>

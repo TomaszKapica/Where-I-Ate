@@ -10,6 +10,9 @@ from django.urls import reverse_lazy
 
 
 class MainPageView(TemplateView):
+    '''
+    View of main page
+    '''
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return render(request, 'index.html', {})
@@ -19,16 +22,16 @@ class MainPageView(TemplateView):
             qs1 = list(Restaurant.objects.filter(owner_id__in=u_followings))
             qs.extend(qs1)
 
-            try:
+            try: # pragma: no cover
                 import operator
-            except ImportError:
+            except ImportError: # pragma: no cover
                 keyfun = lambda x: qs.updated  # use a lambda if no operator module
-            else:
+            else: # pragma: no cover
                 keyfun = operator.attrgetter("updated")  # use operator since it's faster than lambda
             qs.sort(key=keyfun, reverse=True)
 
             limit = 10
-            if len(qs) > limit:
+            if len(qs) > limit: # pragma: no cover
                 qs = qs[:limit-1]
 
             title = 'Recent Following Actions'
@@ -44,16 +47,18 @@ class AboutView(TemplateView):
 
 
 class RestaurantsListView(LoginRequiredMixin, ListView):
-    def get_queryset(self):
-        return Restaurant.objects.filter(owner=self.request.user)
-
-
-class RestaurantDetailView(LoginRequiredMixin, DetailView):
+    '''
+    View of all user's restaurants
+    '''
     def get_queryset(self):
         return Restaurant.objects.filter(owner=self.request.user)
 
 
 class RestaurantCreateView(LoginRequiredMixin, CreateView):
+    '''
+    View creating restaurant
+    '''
+
     form_class = RestaurantCreateForm
     template_name = 'form.html'
 
@@ -69,6 +74,10 @@ class RestaurantCreateView(LoginRequiredMixin, CreateView):
 
 
 class RestaurantUpdateView(LoginRequiredMixin, UpdateView):
+    '''
+    View updating restaurant
+    '''
+
     form_class = RestaurantCreateForm
     template_name = 'restaurants/detail-update.html'
 
@@ -83,10 +92,12 @@ class RestaurantUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class RestaurantDeleteView(LoginRequiredMixin, DeleteView):
+    '''
+    View deleting restaurant
+    '''
+
     success_url = reverse_lazy('restaurants:list')
 
     def get_object(self, queryset=None):
         rest_id = self.request.POST.get('id')
-        if rest_id is None:
-            raise Http404
         return get_object_or_404(Restaurant.objects.filter(id__iexact=rest_id))
