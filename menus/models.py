@@ -12,7 +12,7 @@ class Item(models.Model):
     methods:
     get_contents, get_excludes, get_absolute_url, __str__
     '''
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING) # pragma: no cover
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # pragma: no cover
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE) # pragma: no cover
     name = models.CharField(max_length=150)# pragma: no cover
     contents = models.TextField(help_text='Separate each item by comma')# pragma: no cover

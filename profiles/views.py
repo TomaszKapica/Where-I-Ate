@@ -1,7 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
-from django.views.generic import DetailView
-from django.shortcuts import Http404
+from django.views.generic import ListView, DetailView
 from restaurants.models import Restaurant
 from menus.models import Item
 from friendship.models import Friend, FriendshipRequest, Follow
@@ -42,3 +41,20 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
             context['search_query'] = rest_qs
         return context
 
+
+class ProfileListView(LoginRequiredMixin, ListView):
+    '''
+    View to search profiles by username, location, restaurant's category, items
+    '''
+    template_name = 'profiles/profiles_list.html'
+
+    queryset = User.objects.filter(is_active=True)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ProfileListView, self).get_context_data(*args, **kwargs)
+        query = self.request.GET.get('qs')
+        events = list(self.request.GET.keys())[1:]
+        if query:
+            context['object_list'] = User.custom.search(query, events)
+        context['title'] = 'Find Friends'
+        return context

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block content %}
+
+<div class="row">
+<form class="form" method="GET"  action=".">
+    <input type="text" placeholder="Search..." name="qs" value="{{request.GET.qs}}">
+    <button class="btn btn-default" type="submit">Search</button>
+    |Username: <input type="checkbox" name="username" checked="checked">
+    |City: <input type="checkbox" name="city" checked="checked">
+    |Restaurant name: <input type="checkbox" name="rest_name" checked="checked">
+    |Restaurant category: <input type="checkbox" name="rest_category" checked="checked">
+    |Restaurant location: <input type="checkbox" name="rest_location" checked="checked">
+    |Item name: <input type="checkbox" name="item" checked="checked">
+</form>
+
+
+
+        <div class="col-md-6 offset-md-3">
+            {% for users in object_list %}
+            <div class="card">
+                <h5><a href=" {% url 'profiles:detail' username=users.username %}">{{ users.username }}</a> <h5>
+                    {{ users.restaurant_set.count}} restaurants<br>
+                    {{ users.item_set.count}} items<br>
+                    {% if users.restaurant_set.all.exists %}
+                    Categories: {% for rest in users.restaurant_set.all %}
+                    <a href="{{ request.path }}?qs={{rest.category}}&rest_category=on">{{ rest.category }}</a>
+                    {% endfor %}
+                    {% endif %}
+            </div>
+            {% empty %}
+            <p class="lead">No Users Found</p>
+            {% endfor %}
+        </div>
+
+
+</div>
+
+
+{% endblock content %}

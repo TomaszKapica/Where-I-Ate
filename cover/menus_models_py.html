@@ -122,7 +122,7 @@
 <p id="t12" class="pln"><span class="str">    methods:</span><span class="strut">&nbsp;</span></p>
 <p id="t13" class="pln"><span class="str">    get_contents, get_excludes, get_absolute_url, __str__</span><span class="strut">&nbsp;</span></p>
 <p id="t14" class="pln"><span class="str">    '''</span><span class="strut">&nbsp;</span></p>
-<p id="t15" class="exc">    <span class="nam">owner</span> <span class="op">=</span> <span class="nam">models</span><span class="op">.</span><span class="nam">ForeignKey</span><span class="op">(</span><span class="nam">settings</span><span class="op">.</span><span class="nam">AUTH_USER_MODEL</span><span class="op">,</span> <span class="nam">on_delete</span><span class="op">=</span><span class="nam">models</span><span class="op">.</span><span class="nam">DO_NOTHING</span><span class="op">)</span> <span class="com"># pragma: no cover</span><span class="strut">&nbsp;</span></p>
+<p id="t15" class="exc">    <span class="nam">owner</span> <span class="op">=</span> <span class="nam">models</span><span class="op">.</span><span class="nam">ForeignKey</span><span class="op">(</span><span class="nam">settings</span><span class="op">.</span><span class="nam">AUTH_USER_MODEL</span><span class="op">,</span> <span class="nam">on_delete</span><span class="op">=</span><span class="nam">models</span><span class="op">.</span><span class="nam">CASCADE</span><span class="op">)</span> <span class="com"># pragma: no cover</span><span class="strut">&nbsp;</span></p>
 <p id="t16" class="exc">    <span class="nam">restaurant</span> <span class="op">=</span> <span class="nam">models</span><span class="op">.</span><span class="nam">ForeignKey</span><span class="op">(</span><span class="nam">Restaurant</span><span class="op">,</span> <span class="nam">on_delete</span><span class="op">=</span><span class="nam">models</span><span class="op">.</span><span class="nam">CASCADE</span><span class="op">)</span> <span class="com"># pragma: no cover</span><span class="strut">&nbsp;</span></p>
 <p id="t17" class="exc">    <span class="nam">name</span> <span class="op">=</span> <span class="nam">models</span><span class="op">.</span><span class="nam">CharField</span><span class="op">(</span><span class="nam">max_length</span><span class="op">=</span><span class="num">150</span><span class="op">)</span><span class="com"># pragma: no cover</span><span class="strut">&nbsp;</span></p>
 <p id="t18" class="exc">    <span class="nam">contents</span> <span class="op">=</span> <span class="nam">models</span><span class="op">.</span><span class="nam">TextField</span><span class="op">(</span><span class="nam">help_text</span><span class="op">=</span><span class="str">'Separate each item by comma'</span><span class="op">)</span><span class="com"># pragma: no cover</span><span class="strut">&nbsp;</span></p>
@@ -156,7 +156,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.1</a>,
-            created at 2018-04-06 11:46
+            created at 2018-04-08 21:46
         </p>
     </div>
 </div>

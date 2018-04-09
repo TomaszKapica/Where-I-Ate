@@ -118,5 +118,67 @@ class ProfileDetailViewTest(TestCase):
         self.assertTrue(response3.context['is_friend'])
 
 
+class ProfileDetailViewTest(TestCase):
+    '''
+            Tests ProfileDetailView from profiles.views
+    '''
 
+    @classmethod
+    def setUpTestData(cls):
+        cls.user1 = User.objects.create_user(username='test1', password='12345', is_active=True)
+        cls.user2 = User.objects.create_user(username='test2', password='12345', is_active=True)
+        cls.rest1 = Restaurant.objects.create(name='Ital', owner=cls.user2)
+        cls.rest2 = Restaurant.objects.create(name='PancakePlace', owner=cls.user1)
+        cls.item1 = Item.objects.create(name='pizza', restaurant=cls.rest1, owner=cls.user2)
+        cls.item2 = Item.objects.create(name='pancake', restaurant=cls.rest2, owner=cls.user1)
+
+    def setUp(self):
+
+        self.client._login(self.user1, backend=settings.AUTHENTICATION_BACKENDS[1])
+
+    def test_url_exists_true(self):
+
+        # test if url path exists || existing user
+
+        response = self.client.get('/profile/search/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_accessible_name(self):
+
+        # test if namespace:name is valid
+        response = self.client.get(reverse('profiles:list'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_not_logged(self):
+        # test login requirement
+        self.client.logout()
+        response = self.client.get(reverse('profiles:list'))
+        self.assertRedirects(response, '/accounts/login/?next=/profile/search/')
+
+    def test_correct_template(self):
+        # test if template is valid
+        response = self.client.get(reverse('profiles:list'))
+        self.assertTemplateUsed(response, 'profiles/profiles_list.html')
+
+    def test_get_without__custom_query(self):
+        # test get response
+        response = self.client.get(reverse('profiles:list'))
+
+        # test restaurants sent to view
+        self.assertTrue(response.context['object_list'])
+        self.assertQuerysetEqual(
+            response.context['object_list'],
+            map(repr, User.objects.filter(is_active=True)),
+            ordered=False
+        )
+
+    def test_get_with_custom_query(self):
+        # test get response
+        response = self.client.get('/profile/search/?qs=ital&rest_name=ital')
+        # test if response object is same as entry
+        self.assertQuerysetEqual(
+            response.context['object_list'],
+            map(repr, User.objects.filter(is_active=True, restaurant__name__icontains='ital')),
+            ordered=False
+        )
 

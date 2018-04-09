@@ -3,6 +3,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import settings
 from django.urls import reverse
 from friendship.models import Follow, Friend, FriendshipRequest
+from restaurants.models import Restaurant
+from menus.models import Item
+
 User = get_user_model()
 
 
@@ -403,3 +406,47 @@ class AdminTest(TestCase):
         response = self.client.get('/admin/restaurants/restaurant/')
         self.assertEqual(response.status_code, 200)
 
+
+class RestaurantUserManagerTest(TestCase):
+    '''
+    Test RestaurantUserManager from users.models
+    '''
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user1 = User.objects.create(username='test1', city='Chorzów')
+        cls.user2 = User.objects.create(username='user2')
+        cls.rest1 = Restaurant.objects.create(name='verona', category='italian', owner=cls.user1, location='Katowice')
+        cls.item1 = Item.objects.create(name='pizza', owner=cls.user1, restaurant=cls.rest1)
+
+    def test_manager(self):
+
+        # test manager's queryset response
+
+        # empty query
+        self.assertTrue(User.custom.search())
+        self.assertEqual(User.custom.search().count(), 2)
+
+        # query=username
+        self.assertTrue(User.custom.search('test1', ['username', 'random']))
+        self.assertTrue(User.custom.search('test', ['username', 'random']))
+
+        # query=restaurant.name
+        self.assertTrue(User.custom.search('verona', ['rest_name', 'random']))
+        self.assertTrue(User.custom.search('ver', ['rest_name', 'random']))
+
+        # query=restaurant.category
+        self.assertTrue(User.custom.search('italian', ['rest_category', 'random']))
+        self.assertTrue(User.custom.search('ital', ['rest_category', 'random']))
+
+        # query=item
+        self.assertTrue(User.custom.search('pizza', ['item', 'random']))
+        self.assertTrue(User.custom.search('piz', ['item', 'random']))
+
+        # query=item
+        self.assertTrue(User.custom.search('Chor', ['city', 'random']))
+        self.assertTrue(User.custom.search('Chorzów', ['city', 'random']))
+
+        # query=restaurant.location
+        self.assertTrue(User.custom.search('kato', ['rest_location', 'random']))
+        self.assertTrue(User.custom.search('katowice', ['rest_location', 'random']))
