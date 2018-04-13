@@ -29,7 +29,8 @@
             </form>
         </div>
     </div>
-
+{% empty %}
+<p class="lead">No received requests</p>
 {% endfor %}
 <h2>{{title_2}}</h2>
 {% for sent in sent_req %}
@@ -45,6 +46,8 @@
             </form>
     </div>
 </div>
+{% empty %}
+<p class="lead">No sent requests</p>
 {% endfor %}
 
 {% endblock content %}

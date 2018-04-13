@@ -9,7 +9,7 @@ class Dev(Configuration):
 
     DEBUG = True
 
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ['4f3b38fc.ngrok.io']
 
     INSTALLED_APPS = [
         'django.contrib.admin',
@@ -30,6 +30,7 @@ class Dev(Configuration):
         'friendship',
         'coverage',
         'django_nose',
+        'bootstrap4',
 
 
 
@@ -122,11 +123,20 @@ class Dev(Configuration):
     STATICFILES_DIRS = [
         MEDIA_ROOT
     ]
-    SITE_ID = 2
+    SITE_ID = 3
 
     AUTH_USER_MODEL = 'users.RestaurantUser'
     LOGIN_REDIRECT_URL = 'home'
     ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+    SOCIALACCOUNT_PROVIDERS = {
+        'facebook': {
+            'METHOD': 'js_sdk',
+            'SCOPE': ['email', 'public_profile'],
+            'VERSION': 'v2.12',
+        }
+    }
 
     # TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
     #
@@ -140,4 +150,5 @@ class Dev(Configuration):
 class Prod(Dev):
     ALLOWED_HOSTS = []
     DEBUG = False
+    EMAIL_BACKEND = ''
 

@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser # pragma: no cover
+from django.contrib.auth.models import AbstractUser, BaseUserManager # pragma: no cover
 from django.db import models
 from django.db.models import Q
 from functools import reduce
@@ -35,7 +35,7 @@ class RestaurantUserQueryset(models.query.QuerySet):
             return self
 
 
-class RestaurantUserManager(models.Manager):
+class RestaurantUserManager(BaseUserManager):
 
     def get_queryset(self):
         return RestaurantUserQueryset(self.model, using=self.db)

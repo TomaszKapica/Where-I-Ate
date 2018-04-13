@@ -1,15 +1,49 @@
-<div class="container">
-<a href=" {% url 'home' %}">Home</a>
-<a href=" {% url 'about' %}">About</a>
-<a href=" {% url 'contact' %}">Contact</a>
-    {% if request.user.is_authenticated %}
-    <a href=" {% url 'restaurants:list' %}">Restaurants</a>
-    {% endif %}
-    {% if request.user.is_authenticated %}
-    <a href=" {% url 'menus:list' %}">Items</a>
-    <a href=" {% url 'users:friend-list' %} ">Friends</a>
-    <a href=" {% url 'users:requests'%} ">Requests</a>
-    <a href=" {% url 'users:follow-list'%}">Follow</a>
-    {% endif %}
+{% load socialaccount %}
+{% providers_media_js %}
 
+<div class="container">
+    <nav class="navbar navbar-light bg-light">
+        <ul class="navbar">
+
+            <a class="nav-link" href=" {% url 'home' %}">Home</a>
+
+            {% if request.user.is_authenticated %}
+
+                <a class="nav-link" href=" {% url 'profiles:list' %}">Find Friends</a>
+                <a class="nav-link" href=" {% url 'restaurants:list' %}">Restaurants</a>
+                <a class="nav-link" href=" {% url 'menus:list' %}">Items</a>
+
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Friendships
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href=" {% url 'users:friend-list' %}">Friends</a>
+                    <a class="dropdown-item" href=" {% url 'users:requests'%} ">Friendship Requests</a>
+                    <a class="dropdown-item" href=" {% url 'users:follow-list'%}">Follows</a>
+                    </div>
+
+                </div>
+            {% endif %}
+            <a class="nav-link" href=" {% url 'about' %}">About</a>
+            <a class="nav-link" href=" {% url 'contact' %}">Contact</a>
+
+        </ul>
+
+        <ul class="navbar navbar-justified">
+
+            {% if request.user.is_authenticated %}
+                <a class="nav-link" href=" {% url 'account_logout' %}">Logout</a>
+            {% else%}
+                <a class="btn btn-default" href="{% provider_login_url 'facebook' method='js_sdk' %}" >
+                <span class="fa fa-facebook"></span>
+                Facebook
+                </a>
+                <a class="nav-link " href=" {% url 'account_signup' %}">Sign up</a>
+                <a class="nav-link " href=" {% url 'account_login' %}">Login</a>
+            {% endif %}
+        </ul>
+    </nav>
 </div>
