@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('', MainPageView.as_view(), name='home'),
+    path('api/', include('api.urls')),
     path('contact/', ContactView.as_view(), name='contact'),
     path('about/', AboutView.as_view(), name='about'),
     path('restaurants/', include('restaurants.urls')),

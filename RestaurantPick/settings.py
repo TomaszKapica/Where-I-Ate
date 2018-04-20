@@ -9,7 +9,7 @@ class Dev(Configuration):
 
     DEBUG = True
 
-    ALLOWED_HOSTS = ['4f3b38fc.ngrok.io']
+    ALLOWED_HOSTS = []
 
     INSTALLED_APPS = [
         'django.contrib.admin',
@@ -23,6 +23,7 @@ class Dev(Configuration):
         'menus',
         'users',
         'profiles',
+        'api',
         'allauth',
         'allauth.account',
         'allauth.socialaccount',
@@ -31,6 +32,7 @@ class Dev(Configuration):
         'coverage',
         'django_nose',
         'bootstrap4',
+        'rest_framework',
 
 
 
@@ -137,6 +139,18 @@ class Dev(Configuration):
             'VERSION': 'v2.12',
         }
     }
+
+    # REST_FRAMEWORK = {
+    #
+    #     'DEFAULT_PERMISSION_CLASSES': [
+    #         'rest_framework.permissions.IsAuthenticated'
+    #     ],
+    #     'DEFAULT_AUTHENTICATION_CLASSES': [
+    #         'rest_framework.authentication.SessionAuthentication',
+    #         'rest_framework.authentication.BasicAuthentication'
+    #     ]
+    # }
+
 
     # TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
     #

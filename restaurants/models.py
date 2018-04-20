@@ -4,6 +4,7 @@ from .utils import unique_slug_generator # pragma: no cover
 from django.conf import settings # pragma: no cover
 from django.urls import reverse_lazy # pragma: no cover
 from django.db.models import Q # pragma: no cover
+from rest_framework.reverse import reverse as api_reverse
 
 User = settings.AUTH_USER_MODEL
 
@@ -67,6 +68,9 @@ class Restaurant(models.Model):
 
     def get_absolute_url(self): # pragma: no cover
         return reverse_lazy('restaurants:detail', kwargs={'slug': self.slug})
+
+    def get_absolute_uri(self, request=None):
+        return api_reverse('api_restaurants:rud', kwargs={'slug': self.slug}, request=request)
 
 
 def r_pre_save_receiver(sender, instance, *args, **kwargs): # pragma: no cover
