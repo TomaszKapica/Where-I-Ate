@@ -2,6 +2,7 @@ from django.db import models # pragma: no cover
 from django.conf import settings # pragma: no cover
 from restaurants.models import Restaurant # pragma: no cover
 from django.urls import reverse_lazy # pragma: no cover
+from rest_framework.reverse import reverse as api_reverse
 
 
 class Item(models.Model):
@@ -32,6 +33,9 @@ class Item(models.Model):
 
     def get_absolute_url(self): # pragma: no cover
         return reverse_lazy('menus:detail', kwargs={'pk': self.pk})
+
+    def get_absolute_uri(self, request=None):
+        return api_reverse('api_items:rud', kwargs={'pk': self.pk}, request=request)
 
     def __str__(self): # pragma: no cover
         return self.name

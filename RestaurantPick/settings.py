@@ -156,7 +156,7 @@ class Dev(Configuration):
     #
     # NOSE_ARGS = [
     #     '--with-coverage',
-    #     '--cover-package=profiles, menus, users, restaurants',
+    #     '--cover-package=profiles, menus, users, restaurants, api/restaurants',
     #     '--cover-html',
     # ]
 
