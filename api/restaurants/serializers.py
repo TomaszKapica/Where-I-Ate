@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from restaurants.models import Restaurant
+from api.menus.serializers import MenusReadSerializer
 
 
 class RestaurantSerializer(serializers.ModelSerializer):
@@ -31,3 +32,20 @@ class RestaurantSerializer(serializers.ModelSerializer):
     def get_uri(self, obj):
         request = self.context['request']
         return obj.get_absolute_uri(request)
+
+
+class RestaurantReadSerializer(serializers.ModelSerializer):
+
+    item_set = MenusReadSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Restaurant
+        fields = ('name',
+                  'location',
+                  'category',
+                  'updated',
+                  'timestamp',
+                  'item_set'
+                  )
+
+        read_only_fields = fields

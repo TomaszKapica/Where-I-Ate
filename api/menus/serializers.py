@@ -48,4 +48,15 @@ class MenusSerializer(serializers.ModelSerializer):
         return obj.get_absolute_uri(request)
 
 
+class MenusReadSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Item
+        fields = ('name',
+                  'contents',
+                  'excludes',
+                  'updated',
+                  'timestamp')
+
+        read_only_fields = fields
 

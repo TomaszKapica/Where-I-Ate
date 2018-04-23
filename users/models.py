@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models import Q
 from functools import reduce
 import operator
+from rest_framework.reverse import reverse as api_reverse
 
 
 class RestaurantUserQueryset(models.query.QuerySet):
@@ -48,6 +49,10 @@ class RestaurantUser(AbstractUser): # pragma: no cover
     # RestaurantUser model
     city = models.TextField(max_length=150, null=True, blank=True)
     custom = RestaurantUserManager()
+
+    def get_absolute_uri(self, request=None):
+        return api_reverse('api_profiles:detail', kwargs={'username': self.username}, request=request)
+
 
 
 
